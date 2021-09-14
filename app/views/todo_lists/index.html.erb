@@ -1,0 +1,40 @@
+<div class="container"
+	<div class="row">
+		<div class="col-md-10 col-lg-8 offset-md-1 offset-lg-2">
+
+			<div class="card mt-5">
+				<div class="card-header">
+						<h3>To Do Lists</h3>
+				</div>
+
+				<div class="card-body">
+					<div class="list-group">
+						<% @todo_lists.each do |todo_list| %>
+							<%= link_to todo_list_path(todo_list), class: 'text-decoration-none text-dark' do %>
+								<div class="list-group-item list-group-item-action">
+									<%= todo_list.title %>
+								</div>
+							<% end %>
+					  <% end %>
+					</div>
+				</div>
+
+				<div class="card-footer p-3">
+					<h3>New Todo List</h3>
+					<%= form_with model: @todo_list do |f| %>
+						<div class='mb-3'>
+							<%= f.label :title, class: 'form-label' %>
+							<%= f.text_field :title, class: 'form-control' %>
+						</div>
+
+						<div class="mb-3">
+							<%= f.submit 'Create Todo List', class: 'btn btn-outline-primary' %>
+						</div>
+					<% end %>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>

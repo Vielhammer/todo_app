@@ -1,0 +1,45 @@
+<div class="container"
+	<div class="row">
+		<div class="col-md-10 col-lg-8 offset-md-1 offset-lg-2">
+
+			<div class="card mt-5">
+				<div class="card-header">
+						<h3><%= @todo_list.title %></h3>
+				</div>
+
+				<div class="card-body">
+					<div class="list-group">
+
+					<div class="list-group">
+						<% if @todo_list.todo_items.present? %>
+							<% @todo_list.todo_items.each do |items| %>
+						    <div class="list-group-item list-group-item-action">
+						    	<%= items.description %>
+						    </div>
+						  <% end %>
+					  <% else %>
+					  	<p>No Todo Items are present.</p>
+					  <% end %>
+					</div>
+
+					</div>
+				</div>
+
+				<div class="card-footer p-3">
+					<%= form_with model: [ @todo_list, @todo_list.todo_items.build ] do |f| %>
+						<div class="mb-3">
+							<%= f.label :description %>
+							<%= f.text_field :description %>
+						</div>
+
+						<div class="mb-3">
+							<%= f.submit "Add Todo Item", class: 'btn btn-outline-primary' %>
+						</div>
+					<% end %>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>
