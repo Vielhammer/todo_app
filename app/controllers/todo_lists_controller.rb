@@ -4,6 +4,10 @@ class TodoListsController < ApplicationController
 		@todo_list = TodoList.new
 	end
 
+	def show
+		@todo_list = TodoList.find(params[:id])
+	end
+
 	def create
 		@todo_list = TodoList.new(todo_list_params)
 
