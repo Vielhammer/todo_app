@@ -11,8 +11,14 @@
 					<div class="list-group">
 						<% @todo_lists.each do |todo_list| %>
 							<%= link_to todo_list_path(todo_list), class: 'text-decoration-none text-dark' do %>
-								<div class="list-group-item list-group-item-action">
-									<%= todo_list.title %>
+								<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+									<div class="left-column">
+										<%= todo_list.title %>
+									</div>
+									<div class="right-column">
+										<%= todo_list.percent_completed %>% Completed
+										(<%= todo_list.completed_items %>/<%= todo_list.total_items %> Items)
+									</div>
 								</div>
 							<% end %>
 					  <% end %>
@@ -20,17 +26,31 @@
 				</div>
 
 				<div class="card-footer p-3">
-					<h3>New Todo List</h3>
-					<%= form_with model: @todo_list do |f| %>
-						<div class='mb-3'>
-							<%= f.label :title, class: 'form-label' %>
-							<%= f.text_field :title, class: 'form-control' %>
-						</div>
 
-						<div class="mb-3">
-							<%= f.submit 'Create Todo List', class: 'btn btn-outline-primary' %>
-						</div>
-					<% end %>
+					<div class="accordion" id="accordionExample">
+					  <div class="accordion-item">
+					    <h2 class="accordion-header" id="headingOne">
+					      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+					        <h3>New Todo List</h3>
+					      </button>
+					    </h2>
+					    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+					      <div class="accordion-body">
+									<%= form_with model: @todo_list do |f| %>
+										<div class='mb-3'>
+											<%= f.label :title, class: 'form-label' %>
+											<%= f.text_field :title, class: 'form-control' %>
+										</div>
+
+										<div class="mb-3">
+											<%= f.submit 'Create Todo List', class: 'btn btn-outline-primary' %>
+										</div>
+									<% end %>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+
 				</div>
 
 			</div>

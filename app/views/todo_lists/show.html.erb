@@ -3,39 +3,82 @@
 		<div class="col-md-10 col-lg-8 offset-md-1 offset-lg-2">
 
 			<div class="card mt-5">
-				<div class="card-header">
-						<h3><%= @todo_list.title %></h3>
+				<div class="card-header d-flex justify-content-between align-items-center">
+						<div class="left-column">
+							<%= link_to todo_lists_path, class: 'text-decoration-none text-dark' do %>
+								<i class="fas fa-backward fa-2x"></i>
+							<% end %>
+						</div>
+
+						<div class="center-column text-center">
+							<h3><%= @todo_list.title %></h3>
+							<%= @todo_list.percent_completed %>% Completed
+							(<%= @todo_list.completed_items %>/<%= @todo_list.total_items %> Items)
+						</div>
+
+						<div class="right-column">
+							<%= link_to 'Edit', edit_todo_list_path(@todo_list), class: 'btn btn-outline-success' %>
+						</div>
 				</div>
 
 				<div class="card-body">
+			  <div class="progress mb-1" style="height: 10px;">
+			    <div class="progress-bar bg-info" role="progressbar" style="width: <%= @todo_list.percent_completed %>%" aria-valuenow="<%=@todo_list.percent_completed%>" aria-valuemin="0" aria-valuemax="100">
+			      </div>
+			    </div> 
 					<div class="list-group">
-
-					<div class="list-group">
-						<% if @todo_list.todo_items.present? %>
-							<% @todo_list.todo_items.each do |items| %>
-						    <div class="list-group-item list-group-item-action">
-						    	<%= items.description %>
-						    </div>
-						  <% end %>
-					  <% else %>
-					  	<p>No Todo Items are present.</p>
-					  <% end %>
-					</div>
-
+						<% @todo_list.todo_items.each do |todo_item| %>
+							<% if todo_item.completed? %>
+								<li class="list-group-item">
+									<div class="d-flex justify-content-between">
+										<span class="text-muted">
+											<em><i><%= todo_item.description %></i></em>
+										</span>
+										<%= link_to '#', class: 'btn btn-warning', data: { reflex: 'click->TodoItem#mark_incomplete', id: todo_item.id } do %>
+											<i class="fa fa-undo" %></i>
+										<% end %>
+								</div>
+							</li>
+							<% else %>
+								<li class="list-group-item">
+									<div class="d-flex justify-content-between">
+										<span>
+											<%= todo_item.description %>
+										</span>
+										<%= link_to '#', class: 'btn btn-success', data: { reflex: 'click->TodoItem#mark_complete', id: todo_item.id } do %>
+											<i class="fa fa-check"></i>
+										<% end %>
+									</div>
+							<% end %>
+						<% end %>
 					</div>
 				</div>
 
 				<div class="card-footer p-3">
-					<%= form_with model: [ @todo_list, @todo_list.todo_items.build ] do |f| %>
-						<div class="mb-3">
-							<%= f.label :description %>
-							<%= f.text_field :description %>
-						</div>
 
-						<div class="mb-3">
-							<%= f.submit "Add Todo Item", class: 'btn btn-outline-primary' %>
-						</div>
-					<% end %>
+				<div class="accordion" id="accordionExample">
+				  <div class="accordion-item">
+				    <h2 class="accordion-header" id="headingOne">
+				      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+				        Add Todo Item
+				      </button>
+				    </h2>
+				    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+				      <div class="accordion-body">
+								<%= form_with model: [ @todo_list, @todo_list.todo_items.build ] do |f| %>
+									<div class="input-group mb-3">
+										<%= f.text_field :description, placeholder: 'Add a new Todo Item', class: 'form-control' %>
+									</div>
+
+									<div class="mb-3">
+										<%= f.submit "Add Todo Item", class: 'btn btn-outline-primary' %>
+									</div>
+								<% end %>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+
 				</div>
 
 			</div>
